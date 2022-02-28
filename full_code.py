@@ -433,7 +433,7 @@ def NoisuyLG(A, Y, b):
     print("\nY/Di =\n", Y / Di)
 
     hesoLGcoban = DathucLGcoban(final2, Dy_a)
-    print('\nHệ số đa thức Lagrange cơ bản\n', pd.DataFrame(hesoLGcoban))
+    print('\nHệ số đa thức Lagrange cơ bản\n', pd.DataFrame(hesoLGcoban, index=A[0], columns=[i for i in range(len(A[0]) - 1, -1, -1)]))
 
     super_final = np.dot(Y, hesoLGcoban)
 
@@ -663,7 +663,7 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
         h_2 = h / 2
         print('h / 2 =', h_2, '\n')
 
-        x = np.linspace(a, b, int((b - a) / h) + 1).reshape(1, -1)
+        x = np.linspace(a, b, int((b - a) / h) + 2).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
 
