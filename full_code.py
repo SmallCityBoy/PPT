@@ -667,7 +667,7 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
         print('M2 =', M2)
         h_new = np.sqrt(epxilon * 12 / M2 / (b - a))
         print('h =', h_new)
-        x = np.linspace(a, b, int((b - a) / h_new) + 2).reshape(1, -1)
+        x = np.linspace(a, b, int(np.round((b - a) / h_new) + 1).reshape(1, -1))
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         Ih = (h_new / 2) * (y[0, 0] + y[0, -1] + 2 * np.sum(y[0, 1:-1]))
@@ -678,11 +678,11 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
         h_2 = h / 2
         print('h / 2 =', h_2, '\n')
 
-        x = np.linspace(a, b, int((b - a) / h) + 2).reshape(1, -1)
+        x = np.linspace(a, b, int(np.round((b - a) / h) + 1)).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
 
-        x_2 = np.linspace(a, b, int((b - a) / (h / 2)) + 1).reshape(1, -1)
+        x_2 = np.linspace(a, b, int(np.round((b - a) / (h / 2)) + 1)).reshape(1, -1)
         y_2 = f(x_2)
         print('\n', pd.DataFrame(np.concatenate([x_2, y_2]), index=['x(h/2)', 'y(h/2)']))
 
@@ -710,7 +710,7 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print('M4 =', M4)
         h_new = np.sqrt(np.sqrt(epxilon * 180/ M4 / (b - a)))
         print('h =', h_new)
-        x = np.linspace(a, b, int((b - a) / h_new) + 2).reshape(1, -1)
+        x = np.linspace(a, b, int(np.round((b - a) / h_new) + 1)).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         phi1 = np.sum(y[0, 1:-1:2])
@@ -725,11 +725,11 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         h_2 = h / 2
         print('h / 2 =', h_2, '\n')
 
-        x = np.linspace(a, b, int((b - a) / h) + 1).reshape(1, -1)
+        x = np.linspace(a, b, int(np.round((b - a) / h) + 1)).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
 
-        x_2 = np.linspace(a, b, int((b - a) / (h / 2)) + 1).reshape(1, -1)
+        x_2 = np.linspace(a, b, int(np.round((b - a) / (h / 2)) + 1)).reshape(1, -1)
         y_2 = f(x_2)
         print('\n', pd.DataFrame(np.concatenate([x_2, y_2]), index=['x(h/2)', 'y(h/2)']))
 
