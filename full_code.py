@@ -267,8 +267,11 @@ def giai_GaussJordan(a):
     return nghiem
 
 def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
-    X = X0.reshape((-1,1)).copy()
+    X0 = X0.reshape((-1, 1))
+    X = X0.copy()
     d = d.reshape((-1,1))
+    X1 = np.dot(B, X) + d
+    k = 0
     if mode == 'chuanhang':
         print(f'q = {q}\n')
         if n != 0:
@@ -277,8 +280,11 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
                 err = np.max(np.abs(X - X_pre))*q/(1-q)
-                print(f'xấp xỉ liên tiếp: {err}\n')
+                print(f'xấp xỉ liên tiếp: {err}')
                 n -= 1
+                k += 1
+                saisotiennghiem = chuanvocung(X1 - X0) * q ** k / (1 - q)
+                print(f"Sai số tiên nghiệm: {saisotiennghiem}\n")
         if epxilon != 0:
             err = epxilon + 1
             c = 0
@@ -287,8 +293,11 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
                 err = np.max(np.abs(X - X_pre))*q/(1-q)
-                print(f'xấp xỉ liên tiếp: {err}\n')
+                print(f'xấp xỉ liên tiếp: {err}')
                 c += 1
+                k += 1
+                saisotiennghiem = chuanvocung(X1 - X0) * q ** k / (1 - q)
+                print(f"Sai số tiên nghiệm: {saisotiennghiem}\n")
             print(f'n = {c}')
     if mode == 'chuancot':
         print(f'q = {q}\n')
@@ -298,8 +307,11 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
                 err = lamda * chuan1(X - X_pre) * q/(1-q)
-                print(f'xấp xỉ liên tiếp: {err}\n')
+                print(f'xấp xỉ liên tiếp: {err}')
                 n -= 1
+                k += 1
+                saisotiennghiem = chuanvocung(X1 - X0) * q ** k / (1 - q)
+                print(f"Sai số tiên nghiệm: {saisotiennghiem}\n")
         if epxilon != 0:
             err = epxilon + 1
             c = 0
@@ -308,8 +320,11 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
                 err = lamda * chuan1(X - X_pre) * q/(1-q)
-                print(f'xấp xỉ liên tiếp: {err}\n')
+                print(f'xấp xỉ liên tiếp: {err}')
                 c += 1
+                k += 1
+                saisotiennghiem = chuanvocung(X1 - X0) * q ** k / (1 - q)
+                print(f"Sai số tiên nghiệm: {saisotiennghiem}\n")
             print(f'n = {c}')
 
 def cheotroihang(a):
