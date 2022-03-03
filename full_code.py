@@ -758,7 +758,7 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print(f'Sai số qua lưới phủ: {saiso_luoiphu}')
 
 def Euler_hien(a, b, h, w0, f):
-    x = np.linspace(a, b, int((b - a)/h) + 1).reshape(1, -1)
+    x = np.linspace(a, b, int(np.round((b - a)/h)) + 1).reshape(1, -1)
     y = w0.copy()
     for i in range(1, len(x[0])):
         yk = y[:, i - 1].reshape(-1,1) + h * f(x[0, i - 1], y[0, i - 1], y[1, i - 1])
@@ -768,7 +768,7 @@ def Euler_hien(a, b, h, w0, f):
 
 
 def Euler_an(a, b, h, y0, f):
-    x = np.linspace(a, b, int((b - a) / h) + 1).reshape(1, -1)
+    x = np.linspace(a, b, int(np.round((b - a) / h)) + 1).reshape(1, -1)
     y = np.zeros(x.shape)
     y[0, 0] = y0
 
@@ -784,7 +784,7 @@ def Euler_an(a, b, h, y0, f):
 
 
 def Euler_caitien(a, b, h, y0, f):
-    x = np.linspace(a, b, int((b - a) / h) + 1).reshape(1, -1)
+    x = np.linspace(a, b, int(np.round((b - a) / h)) + 1).reshape(1, -1)
     y = np.zeros(x.shape)
     y[0, 0] = y0
 
@@ -800,7 +800,7 @@ def Euler_caitien(a, b, h, y0, f):
 
 
 def RK_4(a, b, h, y0, z0, f, g):
-    x = np.linspace(a, b, int((b - a) / h) + 1).reshape(1, -1)
+    x = np.linspace(a, b, int(np.round((b - a) / h)) + 1).reshape(1, -1)
     y = np.zeros(x.shape)
     z = np.zeros(x.shape)
 
