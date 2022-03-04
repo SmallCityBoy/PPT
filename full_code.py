@@ -697,8 +697,9 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
         print('M2 =', M2)
         h_new = np.sqrt(epxilon * 12 / M2 / (b - a))
         print('h =', h_new)
-        x = np.linspace(a, b, int((b - a) / h_new) + 1).reshape(1, -1)
+        x = np.linspace(a, b, int((b - a) / h_new) + 2).reshape(1, -1)
         y = f(x)
+        h_new = (b - a)/(int((b - a) / h_new) + 1)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         Ih = (h_new / 2) * (y[0, 0] + y[0, -1] + 2 * np.sum(y[0, 1:-1]))
         print('\nIh =', Ih)
@@ -740,11 +741,12 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print('M4 =', M4)
         h_new = np.sqrt(np.sqrt(epxilon * 180 / M4 / (b - a)))
         print('h =', h_new)
-        x = np.linspace(a, b, int((b - a) / h_new) + 1).reshape(1, -1)
+        x = np.linspace(a, b, int((b - a) / h_new) + 2).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         phi1 = np.sum(y[0, 1:-1:2])
         phi2 = np.sum(y[0, 2:-1:2])
+        h_new = (b - a) / (int((b - a) / h_new) + 1)
         Ih = h_new / 3 * (y[0, 0] + y[0, -1] + 4 * phi1 + 2 * phi2)
         print(f'\nphi1 = {phi1}')
         print(f'phi2 = {phi2}')
@@ -867,3 +869,26 @@ def RK_4(a, b, h, y0, z0, f, g):
 
     result = np.concatenate([x, y, z, k1, l1, k2, l2, k3, l3, k4, l4])
     print(pd.DataFrame(result.T, columns=['x', 'y', 'z', 'k1', 'l1', 'k2', 'l2', 'k3', 'l3', 'k4', 'l4']))
+
+def RK_3(a, b, h, y0, f):
+    x = np.linspace(a, b, int(np.round((b - a) / h)) + 1).reshape(1, -1)
+    y = np.zeros(x.shape)
+
+    k1 = np.zeros(x.shape)
+    k2 = np.zeros(x.shape)
+    k3 = np.zeros(x.shape)
+
+    for i in range(len(x[0])):
+        if i == 0:
+            y[0, i] = y0
+        else:
+            y[0, i] = y[0, i - 1] + 1 / 4 * (k1[0, i - 1] + 3 * k3[0, i - 1])
+
+        k1[0, i] = h * f(x[0, i], y[0, i])
+
+        k2[0, i] = h * f(x[0, i] + h / 3, y[0, i] + 1 / 3 * k1[0, i])
+
+        k3[0, i] = h * f(x[0, i] + 2 / 3 * h, y[0, i] + 2 / 3 * k2[0, i])
+
+    result = np.concatenate([x, y, k1, k2, k3])
+    print(pd.DataFrame(result.T, columns=['x', 'y', 'k1', 'k2', 'k3']))
