@@ -1,22 +1,24 @@
 import numpy as np
 import pandas as pd
 
+
 def giaithua(a):
     if a <= 1:
         return 1
     else:
-        return a*giaithua(a-1)
+        return a * giaithua(a - 1)
 
-def chiadoi(f, a, b, n = 0, epxilon = 0):
+
+def chiadoi(f, a, b, n=0, epxilon=0):
     if n != 0:
         for i in range(n):
             print(f'a: {a}, b: {b}')
-            x = (a+b)/2
+            x = (a + b) / 2
             y = f(x)
             if y == 0:
                 print(x, 'delta: 0')
                 break
-            if(y*f(a) < 0):
+            if y * f(a) < 0:
                 b = x
             else:
                 a = x
@@ -25,17 +27,16 @@ def chiadoi(f, a, b, n = 0, epxilon = 0):
     if epxilon != 0:
         l = a
         r = b
-        n = int(1 + np.log2((r - l)/epxilon))
-        print('n =',n,'\n')
+        n = int(1 + np.log2((r - l) / epxilon))
+        print('n =', n, '\n')
         for i in range(n):
             print(f'a: {l}, b: {r}')
-            x = (l+r)/2
+            x = (l + r) / 2
             y = f(x)
             if y == 0:
-                delta_x = 0
                 break
             else:
-                if y*f(l) < 0:
+                if y * f(l) < 0:
                     r = x
                 else:
                     l = x
@@ -91,13 +92,14 @@ def daycung(f, daoham1, a, b, n=0, epxilon=0, mode='err'):
             n -= 1
     print(f'epxilon0: {(m1 * epxilon) / (M1 - m1)}')
 
+
 def tieptuyen(f, daoham1, daoham2, a, b, n=0, epxilon=0, mode='err'):
     m1 = min(np.abs(daoham1(a)), np.abs(daoham1(b)))
     M2 = max(np.abs(daoham2(a)), np.abs(daoham2(b)))
     print(f'f(a) = {f(a)},  f(b) = {f(b)}')
     print(f'm1 = {m1}\nM2 = {M2}')
-    t = (a*f(b) - b*f(a)) / (f(b) - f(a))
-    if f(t)*f(a) < 0:
+    t = (a * f(b) - b * f(a)) / (f(b) - f(a))
+    if f(t) * f(a) < 0:
         x = a
     else:
         x = b
@@ -106,35 +108,36 @@ def tieptuyen(f, daoham1, daoham2, a, b, n=0, epxilon=0, mode='err'):
         c = 0
         delta_x = epxilon + 1
         err = epxilon + 1
-        if mode=='err':
+        if mode == 'err':
             while err > epxilon:
                 a = x
-                b = x - f(x)/daoham1(x)
-                x = x - f(x)/daoham1(x)
-                delta_x = np.abs(f(x))/m1
-                err = np.abs(b - a)**2*M2/(2*m1)
+                b = x - f(x) / daoham1(x)
+                x = x - f(x) / daoham1(x)
+                delta_x = np.abs(f(x)) / m1
+                err = np.abs(b - a) ** 2 * M2 / (2 * m1)
                 print(f'x: {x}\nxấp xỉ liên tiếp: {err}\ndelta x: {delta_x}\n')
                 c += 1
-        if mode=='delta_x':
+        if mode == 'delta_x':
             while delta_x > epxilon:
                 a = x
-                b = x - f(x)/daoham1(x)
-                x = x - f(x)/daoham1(x)
-                delta_x = np.abs(f(x))/m1
-                err = np.abs(b - a)**2*M2/(2*m1)
+                b = x - f(x) / daoham1(x)
+                x = x - f(x) / daoham1(x)
+                delta_x = np.abs(f(x)) / m1
+                err = np.abs(b - a) ** 2 * M2 / (2 * m1)
                 print(f'x: {x}\nxấp xỉ liên tiếp: {err}\ndelta x: {delta_x}\n')
                 c += 1
         print(f'n = {c}')
     if n != 0:
         while n > 0:
             a = x
-            b = x - f(x)/daoham1(x)
-            x = x - f(x)/daoham1(x)
-            delta_x = np.abs(f(x))/m1
-            err = np.abs(b - a)**2*M2/(2*m1)
+            b = x - f(x) / daoham1(x)
+            x = x - f(x) / daoham1(x)
+            delta_x = np.abs(f(x)) / m1
+            err = np.abs(b - a) ** 2 * M2 / (2 * m1)
             print(f'x: {x}\nxấp xỉ liên tiếp: {err}\ndelta x: {delta_x}\n')
-            n-=1
-    print(f'epxilon0: {np.sqrt(2*m1*epxilon/M2)}')
+            n -= 1
+    print(f'epxilon0: {np.sqrt(2 * m1 * epxilon / M2)}')
+
 
 def lapdon(f, phi, x0, q, epxilon=0, n=0):
     print(f'q = {q}\n')
@@ -145,21 +148,23 @@ def lapdon(f, phi, x0, q, epxilon=0, n=0):
         while err > epxilon:
             x_pre = x
             x = phi(x_pre)
-            err = q*np.abs(x - x_pre) / (1 - q)
+            err = q * np.abs(x - x_pre) / (1 - q)
             print(f'x: {x}\nxấp xỉ liên tiếp: {err}\n')
-            c+=1
+            c += 1
         print(f'n = {c}')
     if n != 0:
         for i in range(n):
             x_pre = x
             x = phi(x_pre)
-            err = q*np.abs(x - x_pre) / (1 - q)
+            err = q * np.abs(x - x_pre) / (1 - q)
             print(f'x: {x}\nxấp xỉ liên tiếp: {err}\n')
-    print(f'epxilon0: {(1-q)*epxilon/q}')
+    print(f'epxilon0: {(1 - q) * epxilon / q}')
+
 
 def khu(a, b, ind):
-    b = b - b[ind]/a[ind] * a
+    b = b - b[ind] / a[ind] * a
     return b
+
 
 def Gauss(a):
     print(a, '\n')
@@ -174,25 +179,27 @@ def Gauss(a):
                         a[i] = a[k]
                         a[k] = temp
                         check = 1
-                        print(a,'\n')
+                        print(a, '\n')
                         break
                 if check == 0:
                     j += 1
         for l in range(i + 1, len(a)):
             a[l] = khu(a[i], a[l], j)
-        print(a,'\n')
+        print(a, '\n')
     return a
+
 
 def giai_Gauss(a):
     check = []
     nghiem = np.zeros((len(a), 1))
-    for i in range(len(a)-1, -1, -1):
+    for i in range(len(a) - 1, -1, -1):
         nghiem[i] = a[i, -1]
         for j in check:
-            nghiem[i] -= nghiem[j]*a[i, j]
+            nghiem[i] -= nghiem[j] * a[i, j]
         nghiem[i] /= a[i, i]
         check.append(i)
     return nghiem
+
 
 def Gauss_Jordan(a):
     print(a, '\n')
@@ -224,24 +231,34 @@ def Gauss_Jordan(a):
     print(a)
     return a
 
-def chuanvocung(a):# chuẩn hàng
+
+def chuanvocung(a):  # chuẩn hàng
     lst = []
     for i in a:
         lst.append(np.sum(np.abs(i)))
     return max(lst)
 
-def chuan1(a):# chuẩn cột
+
+def chuan1(a):  # chuẩn cột
     if len(a[0]) != 1:
         lst = []
         for i in range(len(a)):
-            lst.append(np.sum(np.abs(a[:,i])))
+            lst.append(np.sum(np.abs(a[:, i])))
         return max(lst)
     else:
         return np.sum(np.abs(a))
 
+
 def chuan2(a):
     eigenvalues, eigenvectors = np.linalg.eig(np.dot(a.T, a))
     return np.max(np.sqrt(eigenvalues))
+
+def chuanEuclid(a):
+    result = 0
+    for i in a:
+        for j in i:
+            result += j**2
+    return np.sqrt(result)
 
 def giai_GaussJordan(a):
     nghiem = np.zeros((len(a), 1))
@@ -266,10 +283,11 @@ def giai_GaussJordan(a):
 
     return nghiem
 
-def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
+
+def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda=0):
     X0 = X0.reshape((-1, 1))
     X = X0.copy()
-    d = d.reshape((-1,1))
+    d = d.reshape((-1, 1))
     X1 = np.dot(B, X) + d
     k = 0
     if mode == 'chuanhang':
@@ -279,7 +297,7 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X_pre = X.copy()
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
-                err = np.max(np.abs(X - X_pre))*q/(1-q)
+                err = np.max(np.abs(X - X_pre)) * q / (1 - q)
                 print(f'xấp xỉ liên tiếp: {err}')
                 n -= 1
                 k += 1
@@ -292,7 +310,7 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X_pre = X.copy()
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
-                err = np.max(np.abs(X - X_pre))*q/(1-q)
+                err = np.max(np.abs(X - X_pre)) * q / (1 - q)
                 print(f'xấp xỉ liên tiếp: {err}')
                 c += 1
                 k += 1
@@ -306,7 +324,7 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X_pre = X.copy()
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
-                err = lamda * chuan1(X - X_pre) * q/(1-q)
+                err = lamda * chuan1(X - X_pre) * q / (1 - q)
                 print(f'xấp xỉ liên tiếp: {err}')
                 n -= 1
                 k += 1
@@ -319,13 +337,14 @@ def lapdon_matrix(B, d, X0, q, n=0, epxilon=0, mode='chuanhang', lamda = 0):
                 X_pre = X.copy()
                 X = np.dot(B, X_pre) + d
                 print(f'X =\n {X}')
-                err = lamda * chuan1(X - X_pre) * q/(1-q)
+                err = lamda * chuan1(X - X_pre) * q / (1 - q)
                 print(f'xấp xỉ liên tiếp: {err}')
                 c += 1
                 k += 1
                 saisotiennghiem = chuanvocung(X1 - X0) * q ** k / (1 - q)
                 print(f"Sai số tiên nghiệm: {saisotiennghiem}\n")
             print(f'n = {c}')
+
 
 def cheotroihang(a):
     for i in range(len(a)):
@@ -337,6 +356,7 @@ def cheotroihang(a):
             return False
     return True
 
+
 def cheotroicot(a):
     for i in range(len(a)):
         tong = 0
@@ -346,6 +366,7 @@ def cheotroicot(a):
         if np.abs(a[i, i]) < tong:
             return False
     return True
+
 
 def lapJacobi(B, d, X0, n=0, epxilon=0):
     lst = []
@@ -381,58 +402,63 @@ def lapJacobi(B, d, X0, n=0, epxilon=0):
         print(f'lamda: {lamda}')
         lapdon_matrix(B, d, X0, q, n=n, epxilon=epxilon, mode='chuancot', lamda=lamda)
 
-def hoocner(a,b):
-    b = b.reshape(-1,1)
+
+def hoocner(a, b):
+    b = b.reshape(-1, 1)
     zero = np.zeros((1, 1))
     c = np.concatenate([zero, b])
     result = a.copy()
     final = a.copy()
     for i in range(len(b)):
         for j in range(1, len(result[0])):
-            result[0,j] = result[0, j-1]*b[i,0] + a[0,j]
-            if np.abs(result[0,j]) < 10**(-10):
-                result[0,j] = 0
+            result[0, j] = result[0, j - 1] * b[i, 0] + a[0, j]
+            if np.abs(result[0, j]) < 10 ** (-10):
+                result[0, j] = 0
         final = np.concatenate([final, result])
     final = np.concatenate([c, final], axis=1)
     return final
 
+
 def hoocnenguoc(a):
-    final = np.array([[1, -a[0,0]]])
+    final = np.array([[1, -a[0, 0]]])
     for i in range(1, len(a[0])):
-        x = a[0,i]
+        x = a[0, i]
         zero = np.zeros((len(final), 1))
         final = np.concatenate([zero, final], axis=1)
         hang2 = np.zeros((1, len(final[-1])))
-        hang1 = final[-1,:]*x
-        hang2[0,0] = 1
+        hang1 = final[-1, :] * x
+        hang2[0, 0] = 1
         for i in range(1, len(hang1) - 1):
-            hang2[0,i] = final[-1,i+1] - hang1[i]
-            if np.abs(hang2[0,i+1]) < 10**(-10):
-                hang2[0,i+1] = 0
+            hang2[0, i] = final[-1, i + 1] - hang1[i]
+            if np.abs(hang2[0, i + 1]) < 10 ** (-10):
+                hang2[0, i + 1] = 0
         hang2[0, -1] = 0 - hang1[-1]
-        final = np.concatenate([final,hang2])
+        final = np.concatenate([final, hang2])
     return final
 
+
 def Dy(a):
-    multi = np.ones((a.shape[1],1))
+    multi = np.ones((a.shape[1], 1))
     result = np.zeros(a.shape)
     final = np.zeros(a.shape)
     for i in range(len(a[0])):
         for j in range(len(a[0])):
             if i == j:
-                result[0,j] = 1
+                result[0, j] = 1
             else:
-                result[0,j] = a[0,i] - a[0,j]
-            multi[i, 0] *= result[0,j]
+                result[0, j] = a[0, i] - a[0, j]
+            multi[i, 0] *= result[0, j]
         final = np.append(final, result, axis=0)
     final = np.concatenate([final[1:], multi], axis=1)
     return final
+
 
 def DathucLGcoban(final2, Dy_a):
     heso = final2[1:, 1:].copy()
     for i in range(len(heso)):
         heso[i] = heso[i] / Dy_a[i, -1]
-    return heso[:,:-1]
+    return heso[:, :-1]
+
 
 def NoisuyLG(A, Y, b):
     final1 = hoocnenguoc(A)
@@ -448,7 +474,8 @@ def NoisuyLG(A, Y, b):
     print("\nY/Di =\n", Y / Di)
 
     hesoLGcoban = DathucLGcoban(final2, Dy_a)
-    print('\nHệ số đa thức Lagrange cơ bản\n', pd.DataFrame(hesoLGcoban, index=A[0], columns=[i for i in range(len(A[0]) - 1, -1, -1)]))
+    print('\nHệ số đa thức Lagrange cơ bản\n',
+          pd.DataFrame(hesoLGcoban, index=A[0], columns=[i for i in range(len(A[0]) - 1, -1, -1)]))
 
     super_final = np.dot(Y, hesoLGcoban)
 
@@ -550,6 +577,7 @@ def bangSP(X, Y):
 
     return final
 
+
 def NoisuyNTcachdeuTien(X, Y, b):
     h = (X[0, -1] - X[0, 0]) / (len(X[0]) - 1)
     print(f"\nh = {h}")
@@ -631,18 +659,20 @@ def NoisuyNTcachdeuLui(X, Y, b):
 
     print(f'\n{Pn_bt[-1, -1]}')
 
+
 def nhapX(somoc):
     X = []
     for i in range(somoc):
-        X.append(float(input(f"Nhập X{i+1}: ")))
+        X.append(float(input(f"Nhập X{i + 1}: ")))
     X = np.array([X])
     print('\n')
     return X
 
+
 def nhapY(somoc):
     Y = []
     for i in range(somoc):
-        Y.append(float(input(f"Nhập Y{i+1}: ")))
+        Y.append(float(input(f"Nhập Y{i + 1}: ")))
     Y = np.array([Y])
     return Y
 
@@ -661,7 +691,7 @@ def Binhphuongtoithieu(x, f, phi_x):
 
 
 def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
-    if epxilon != 0 and daoham2 != None:
+    if epxilon != 0 and daoham2 is not None:
         x_1 = np.linspace(a, b, 1000000)
         M2 = np.max(np.abs(daoham2(x_1)))
         print('M2 =', M2)
@@ -692,7 +722,7 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
         Ih_2 = (h_2 / 2) * (y_2[0, 0] + y_2[0, -1] + 2 * np.sum(y_2[0, 1:-1]))
         print('I_h/2 =', Ih_2)
 
-        if daoham2 != None:
+        if daoham2 is not None:
             x_1 = np.linspace(a, b, 1000000)
             M2 = np.max(np.abs(daoham2(x_1)))
             print('M2 =', M2)
@@ -704,11 +734,11 @@ def Tichphangandung_HT(a, b, h, f, daoham2=None, epxilon=0):
 
 
 def Simpson(a, b, h, f, daoham4=None, epxilon=0):
-    if epxilon != 0 and daoham4 != None:
+    if epxilon != 0 and daoham4 is not None:
         x_1 = np.linspace(a, b, 1000000)
         M4 = np.max(np.abs(daoham4(x_1)))
         print('M4 =', M4)
-        h_new = np.sqrt(np.sqrt(epxilon * 180/ M4 / (b - a)))
+        h_new = np.sqrt(np.sqrt(epxilon * 180 / M4 / (b - a)))
         print('h =', h_new)
         x = np.linspace(a, b, int((b - a) / h_new) + 1).reshape(1, -1)
         y = f(x)
@@ -747,7 +777,7 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print(f'phi2 (h/2) = {phi2_2}')
         print('I_h/2 =', Ih_2, '\n')
 
-        if daoham4 != None:
+        if daoham4 is not None:
             x_1 = np.linspace(a, b, 1000000)
             M4 = np.max(np.abs(daoham4(x_1)))
             print('M4 =', M4)
@@ -757,11 +787,12 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         saiso_luoiphu = np.abs(Ih - Ih_2) * 16 / 15
         print(f'Sai số qua lưới phủ: {saiso_luoiphu}')
 
+
 def Euler_hien(a, b, h, w0, f):
-    x = np.linspace(a, b, int(np.round((b - a)/h)) + 1).reshape(1, -1)
+    x = np.linspace(a, b, int(np.round((b - a) / h)) + 1).reshape(1, -1)
     y = w0.copy()
     for i in range(1, len(x[0])):
-        yk = y[:, i - 1].reshape(-1,1) + h * f(x[0, i - 1], y[0, i - 1], y[1, i - 1])
+        yk = y[:, i - 1].reshape(-1, 1) + h * f(x[0, i - 1], y[0, i - 1], y[1, i - 1])
         y = np.concatenate([y, yk], axis=1)
     final = np.concatenate([x, y])
     print(pd.DataFrame(final.T, columns=['x', 'y', 'z']))
