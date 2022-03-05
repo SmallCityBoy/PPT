@@ -741,7 +741,10 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print('M4 =', M4)
         h_new = np.sqrt(np.sqrt(epxilon * 180 / M4 / (b - a)))
         print('h =', h_new)
-        x = np.linspace(a, b, int((b - a) / h_new) + 2).reshape(1, -1)
+        k = int((b - a) / h_new) + 2
+        if k%2 == 0:
+            k+=1
+        x = np.linspace(a, b, k).reshape(1, -1)
         y = f(x)
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         phi1 = np.sum(y[0, 1:-1:2])
@@ -892,3 +895,4 @@ def RK_3(a, b, h, y0, f):
 
     result = np.concatenate([x, y, k1, k2, k3])
     print(pd.DataFrame(result.T, columns=['x', 'y', 'k1', 'k2', 'k3']))
+
