@@ -749,7 +749,7 @@ def Simpson(a, b, h, f, daoham4=None, epxilon=0):
         print(pd.DataFrame(np.concatenate([x, y]), index=['x', 'y']))
         phi1 = np.sum(y[0, 1:-1:2])
         phi2 = np.sum(y[0, 2:-1:2])
-        h_new = (b - a) / (int((b - a) / h_new) + 1)
+        h_new = (b - a) / (k-1)
         Ih = h_new / 3 * (y[0, 0] + y[0, -1] + 4 * phi1 + 2 * phi2)
         print(f'\nphi1 = {phi1}')
         print(f'phi2 = {phi2}')
